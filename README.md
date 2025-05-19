@@ -162,7 +162,7 @@
 
     ```shell
     cd ./B2DVL-Adapter
-    bash ./your_startup_main.sh
+    bash ./your_startup_script.sh
     ```
 
 ### Open-Loop Inference
