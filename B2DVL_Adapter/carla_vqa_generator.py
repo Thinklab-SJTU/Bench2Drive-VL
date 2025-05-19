@@ -604,7 +604,7 @@ class QAsGenerator():
         image_number = image_number.replace('.jpg', '')
         
         save_dir = os.path.join(output_graph_directory, self.save_name)
-        print(f"[debug] output_graph_directory = {output_graph_directory}, save_dir = {save_dir}, image_number = {image_number}")
+        # print(f"[debug] output_graph_directory = {output_graph_directory}, save_dir = {save_dir}, image_number = {image_number}")
         
         Path(save_dir).mkdir(exist_ok=True, parents=True)
         with open(save_dir + '/' + image_number + '.json', 'w', encoding='utf-8') as f:

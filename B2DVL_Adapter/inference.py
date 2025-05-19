@@ -12,7 +12,7 @@ def main(args):
 
     print("======== Configuration Starts ========")
     if args.wp_code == None:
-        print_error("waypoint decode method not set, set to raw (no special tokenize).")
+        # print_error("waypoint decode method not set, set to raw (no special tokenize).")
         args.wp_code = "raw"
     config = InferConfig(args.config_dir)
     config.display_config()

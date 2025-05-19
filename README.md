@@ -176,7 +176,7 @@
             "USE_CHECKPOINT": true, // record the process of inference
             "SUBSET_FILE": "./infer_configs/subset.txt", // subset file, leave blank if not used
             "CHECKPOINT_FILE": "./infer_configs/finished_scenarios.txt", // checkpoint file, leave blank if not used
-            "ENTRY_EXIT_FILE": "./infer_configs/entry_exits.json", // the file which specifies entry and exit point of certian scenario, 
+            "ENTRY_EXIT_FILE": "./infer_configs/entry_exits.json", // the file which specifies entry and exit point of certain scenario, 
             // you can create a file with "{}" as content if do not specify
             "FRAME_PER_SEC": 10 // sensor frame
         },
@@ -186,7 +186,7 @@
             "USE_ALL_CAMERAS": true,
             "NO_HISTORY_MODE": false,
             "APPEND_QUESTION": true,
-            "APPENDIX_FILE": "./infer_configs/append_questions.json"
+            "APPENDIX_FILE": "./infer_configs/append_questions.json" // not used now, to be removed
         },
         "CHAIN": {
             "NODE": [43, 50],

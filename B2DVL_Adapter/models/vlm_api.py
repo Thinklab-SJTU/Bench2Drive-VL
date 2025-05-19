@@ -167,7 +167,7 @@ class VLMAPIInterface(VLMInterface):
         })
         input_conversation.append(bb_dict)
 
-        print(f"[debug] conversation = {input_conversation}")
+        # print(f"[debug] conversation = {input_conversation}")
 
         input_image_files = []
         for frame_number in image_frame_list:
@@ -181,7 +181,7 @@ class VLMAPIInterface(VLMInterface):
                     input_image_files.append(images_list[frame_number]['CAM_FRONT'])
         
         # print(input_image_files)
-        print(input_conversation)
+        # print(input_conversation)
 
         response = get_chat_response(self.client, vlm_str, input_conversation)
 
