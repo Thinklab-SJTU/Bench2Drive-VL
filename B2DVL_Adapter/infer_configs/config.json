@@ -1,0 +1,30 @@
+{
+    "TASK_CONFIGS": {
+        "INFER_SUBSET": true,
+        "USE_CHECKPOINT": false,
+        "SUBSET_FILE": "./infer_configs/subset.txt",
+        "CHECKPOINT_FILE": "./infer_configs/finished_scenarios.txt",
+        "ENTRY_EXIT_FILE": "./infer_configs/entry_exits.json",
+        "FRAME_PER_SEC": 10
+    },
+    "INFERENCE_BASICS": {
+        "INPUT_WINDOW": 1,
+        "CONVERSATION_WINDOW": 2,
+        "USE_ALL_CAMERAS": true,
+        "NO_HISTORY_MODE": false,
+        "APPEND_QUESTION": true,
+        "APPENDIX_FILE": "./infer_configs/append_questions.json"
+    },
+    "CHAIN": {
+        "NODE": [43, 50],
+        "EDGE": {
+            "43": [50],
+            "50": []
+        },
+        "INHERIT": {
+            "19": [43, 7],
+            "15": [7]
+        },
+        "USE_GT": []
+    }
+}

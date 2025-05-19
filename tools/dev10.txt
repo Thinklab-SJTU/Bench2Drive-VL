@@ -1,0 +1,10 @@
+type=BlockedIntersection, id=27494, name=BlockedIntersection_1
+type=ConstructionObstacleTwoWays, id=25424, name=ConstructionObstacleTwoWays_1
+type=HazardAtSideLane, id=25381, name=HazardAtSideLane_1
+type=NonSignalizedJunctionLeftTurn, id=2091, name=NonSignalizedJunctionLeftTurn_1
+type=ParkingCrossingPedestrian, id=3255, name=ParkingCrossingPedestrian_1
+type=ParkingExit, id=3514, name=ParkingExit_1
+type=SequentialLaneChange, id=17569, name=SequentialLaneChange_1
+type=SignalizedJunctionLeftTurnEnterFlow, id=28198, name=SignalizedJunctionLeftTurnEnterFlow_1
+type=StaticCutIn, id=26405, name=StaticCutIn_1
+type=YieldToEmergencyVehicle, id=25378, name=YieldToEmergencyVehicle_1
