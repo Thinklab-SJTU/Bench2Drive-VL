@@ -399,7 +399,7 @@ class InferenceWorker:
                         extra_condition = extra_prompt + " " + extra_condition
                     question_bubble = create_query(words=question, images=[images],
                                                 frame_number=frame_number, scenario=scenario,
-                                                qid=qid, gt=gt, transform=self.dataset.transform,
+                                                qid=qid, gt=gt, transform=self.dataset.transform if not self.in_carla else None,
                                                 extra_words=extra_condition, extra_images=self.images_window[:-1])
                     if not self.in_carla:
                         question_bubble = process_bubble_image(question_bubble, self.worker_id, scenario, self.location_dict, vqa_data['anno'])

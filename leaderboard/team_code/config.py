@@ -634,7 +634,7 @@ class VQAArgs():
         self.sample_frame_mode="uniform"
         self.sample_uniform_interval=5
         self.save_examples=False
-        self.visualize_projection=True
+        self.visualize_projection=False
         self.filter_routes_by_result=False
         self.remove_pedestrian_scenarios=False
         self.worker_count=1

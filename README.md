@@ -1,43 +1,58 @@
 # Bench2Drive-VL
 
-🚗 Bench2Drive-VL is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our expert rule-based model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator. Original Bench2Drive metrics are used for planning benchmarking.
+🚗 Bench2Drive-VL is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
 
 📚 Detailed documentation is on the way...
 
 ![B2DVL Structure](./assets/struct+cfg.png)
 
-## Set up the environment
+## How to use
 
-After installing carla, write an `env.sh`:
+### Set up the environment
 
-```bash
-export CARLA_ROOT=/path/to/your/carla
+1. Install CARLA:
 
-export CARLA_SERVER=${CARLA_ROOT}/CarlaUE4.sh
-export PYTHONPATH=${CARLA_ROOT}/PythonAPI
-export PYTHONPATH=$PYTHONPATH:${CARLA_ROOT}/PythonAPI/carla
-export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.15-py3.7-linux-x86_64.egg
+    ```bash
+    mkdir carla
+    cd carla
+    wget https://carla-releases.s3.us-east-005.backblazeb2.com/Linux/CARLA_0.9.15.tar.gz
+    tar -xvf CARLA_0.9.15.tar.gz
+    cd Import && wget https://carla-releases.s3.us-east-005.backblazeb2.com/Linux/AdditionalMaps_0.9.15.tar.gz
+    cd .. && bash ImportAssets.sh
+    export CARLA_ROOT=YOUR_CARLA_PATH
+    echo "$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.15-py3.7-linux-x86_64.egg" >> YOUR_CONDA_PATH/envs/YOUR_CONDA_ENV_NAME/lib/python3.7/site-packages/carla.pth # python 3.8 also works well, please set YOUR_CONDA_PATH and YOUR_CONDA_ENV_NAME
+    ```
 
-export WORK_DIR=/path/to/this/repo
-export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/scenario_runner
-export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/leaderboard
-export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/B2DVL_Adapter
-export SCENARIO_RUNNER_ROOT=${WORK_DIR}/scenario_runner
-export LEADERBOARD_ROOT=${WORK_DIR}/leaderboard
+2. After installing CARLA, write an `env.sh`:
 
-export VQA_GEN=1
-export STRICT_MODE=1
-# DriveCommenter drives back the ego vehicle after circumventing obstacles if STRICT_MODE > 0,
-# must set to true if doing closed-loop eval.
-```
+   ```bash
+   export CARLA_ROOT=/path/to/your/carla
 
-Make sure you have the correct environment variables:
+   export CARLA_SERVER=${CARLA_ROOT}/CarlaUE4.sh
+   export PYTHONPATH=${CARLA_ROOT}/PythonAPI
+   export PYTHONPATH=$PYTHONPATH:${CARLA_ROOT}/PythonAPI/carla
+   export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.15-py3.7-linux-x86_64.egg
 
-```shell
-source ./env.sh
-```
+   export WORK_DIR=/path/to/this/repo
+   export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/scenario_runner
+   export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/leaderboard
+   export PYTHONPATH=$PYTHONPATH:${WORK_DIR}/B2DVL_Adapter
+   export SCENARIO_RUNNER_ROOT=${WORK_DIR}/scenario_runner
+   export LEADERBOARD_ROOT=${WORK_DIR}/leaderboard
 
-## Closed-Loop Inference
+   export VQA_GEN=1
+   export STRICT_MODE=1
+   # DriveCommenter drives back the ego vehicle after circumventing obstacles if STRICT_MODE > 0,
+   # must set to true if doing closed-loop eval.
+   ```
+
+3. Make sure you have the correct environment variables:
+
+   ```shell
+   source ./env.sh
+   ```
+
+### Closed-Loop Inference
 
 1. Write a vlm config file (examples can be found under `./vlm_config`):
    
@@ -102,7 +117,7 @@ source ./env.sh
     BASE_CHECKPOINT_ENDPOINT=./my_checkpoint
     SAVE_PATH=./eval_v1/
     GPU_RANK=0 # the gpu carla runs on
-    VLM_CONFIG=./vlm_config/your_vlm_config.json
+    VLM_CONFIG=/path/to/your_vlm_config.json
     PORT=$BASE_PORT
     TM_PORT=$BASE_TM_PORT
     ROUTES="${BASE_ROUTES}.xml"
@@ -112,10 +127,10 @@ source ./env.sh
     bash leaderboard/scripts/run_evaluation.sh $PORT $TM_PORT 1 $ROUTES $TEAM_AGENT "." $CHECKPOINT_ENDPOINT $SAVE_PATH "null" $GPU_RANK $VLM_CONFIG
     ```
 
-3. Start VLM Server
+3. Start VLM Server (not needed if `MINIMAL`)
 
     ```shell
-    python ./B2DVL_Adapter/web_interact_app.py --config ./vlm_config/config.json
+    python ./B2DVL_Adapter/web_interact_app.py --config /path/to/your/vlm_config.json
     ```
 
 4. Start Main module
@@ -124,7 +139,7 @@ source ./env.sh
     bash ./startup.sh
     ```
 
-## Generate VQAs from static dataset using DriveCommenter
+### Generate VQAs from static dataset using DriveCommenter
 
 1. Write a startup script under `./B2DVL-Adapter`
 
@@ -150,7 +165,7 @@ source ./env.sh
     bash ./your_startup_main.sh
     ```
 
-## Open-Loop Inference
+### Open-Loop Inference
 
 1. Write a config file.
 
@@ -195,7 +210,7 @@ source ./env.sh
     python inference.py --model Qwen2.5VL --model_path /path/to/Qwen2.5VL-3B-Instruct --config_dir /path/to/your_infer_config.json --image_dir /path/to/Bench2Drive/dataset --vqa_dir /path/to/vqa/dataset --num_workers 4 --out_dir ./infer_outputs
     ```
 
-## Evaluation
+### Evaluation
 
 1. To use your vlm api, create a `mytoken.py` under `./B2DVL-Adapter`. Take deepseek as an example:
 
