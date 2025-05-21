@@ -1,10 +1,12 @@
-# Bench2Drive-VL
+![B2DVL Header](./assets/Bench2Drive-VL-wide.png)
 
-🚗 Bench2Drive-VL is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
+🚗 **Bench2Drive-VL** is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
+
+![B2DVL Structure](./assets/struct_new.png)
 
 📚 Detailed documentation & docker support is on the way...
 
-![B2DVL Structure](./assets/struct+cfg.png)
+![B2DVL Modules](./assets/modules_new.png)
 
 ## How to use
 
