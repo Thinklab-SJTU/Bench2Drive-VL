@@ -1,15 +1,14 @@
 ![B2DVL Header](./assets/Bench2Drive-VL.png)
 
+🚗 **Bench2Drive-VL** is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
 
 <h2 align="center">
-  <a href="http://the-shell-of-iris.site/bench2drive-vl/">Document</a>
+  <a href="https://meteorcollector.github.io/B2DVL-docs-site/">> Document</a>
 </h2>
-
-🚗 **Bench2Drive-VL** is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
 
 ![B2DVL Structure](./assets/struct_new.png)
 
-📚 Detailed documentation & docker support is on the way...
+📚 Docker support is on the way...
 
 ![B2DVL Modules](./assets/modules_new.png)
 
