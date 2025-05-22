@@ -1,5 +1,10 @@
 ![B2DVL Header](./assets/Bench2Drive-VL.png)
 
+
+<h2 align="center">
+  <a href="http://the-shell-of-iris.site/bench2drive-vl/">Document</a>
+</h2>
+
 🚗 **Bench2Drive-VL** is the first closed-loop full-stack benchmark for vision-language models (VLMs) in autonomous driving. In VQA part, our rule-based expert model DriveCommenter is used for generating VQAs' ground truth in CARLA simulator (or from static datasets like Bench2Drive). Original Bench2Drive metrics are used for planning benchmarking.
 
 ![B2DVL Structure](./assets/struct_new.png)
@@ -214,7 +219,7 @@
 
 ### Evaluation
 
-1. To use your vlm api, create a `mytoken.py` under `./B2DVL-Adapter`. Take deepseek as an example:
+1. To use your llm api for evaluation, create a `mytoken.py` under `./B2DVL-Adapter`. Take deepseek as an example:
 
     ```python
     DEEPSEEK_TOKEN = [
