@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkb_2_dvl_docs_site=self.webpackChunkb_2_dvl_docs_site||[]).push([[1903],{1912:e=>{e.exports=JSON.parse('{"blogBasePath":"/Bench2Drive-VL/blog","blogTitle":"Blog","authorsListPath":"/Bench2Drive-VL/blog/authors"}')}}]);

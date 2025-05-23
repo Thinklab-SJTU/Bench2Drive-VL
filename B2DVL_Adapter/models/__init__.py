@@ -1,2 +1,0 @@
-from .register import get_model_interface
-from .interact_utils import local_image_to_base64, web_image_to_base64

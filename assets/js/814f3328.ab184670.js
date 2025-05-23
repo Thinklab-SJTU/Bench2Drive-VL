@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkb_2_dvl_docs_site=self.webpackChunkb_2_dvl_docs_site||[]).push([[7472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Hello World!","permalink":"/Bench2Drive-VL/blog/welcome","unlisted":false,"date":"2025-05-22T00:00:00.000Z"}]}')}}]);

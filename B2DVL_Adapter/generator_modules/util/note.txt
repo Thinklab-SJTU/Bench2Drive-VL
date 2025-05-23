@@ -1,3 +1,0 @@
-in base 1000, waypoint:
-x range: [-2.41, 8.49]
-y range: [-5.76, 6.32]

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkb_2_dvl_docs_site=self.webpackChunkb_2_dvl_docs_site||[]).push([[5780],{8702:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/Bench2Drive-VL/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
