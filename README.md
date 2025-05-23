@@ -256,3 +256,6 @@
     ```shell
     python eval.py --config_dir ./path/to/eval_config.json --num_workers 4 --out_dir ./eval_outputs
     ```
+
+## License
+All assets and code are under the CC-BY-NC-ND unless specified otherwise.
