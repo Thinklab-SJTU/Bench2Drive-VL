@@ -2478,12 +2478,14 @@ def determine_basic_vector_crossing(command_int, other_vehicle, whitelist={}, fo
             if left     is not None: left_deltas.append(left)
             if right    is not None: right_deltas.append(right)
 
+        front_adjust_min = RIGHT_ADJUST_MIN if command_int in [2] else FRONT_ADJUST_MIN
+        front_adjust_down_margin = RIGHT_ADJUST_DOWN_MARGIN if command_int in [2] else FRONT_ADJUST_DOWN_MARGIN
         if straight_deltas:
-            history_straight_threshold = max(max(straight_deltas) - ADJUST_DOWN_MARGIN, FRONT_ADJUST_MIN)
+            history_straight_threshold = max(max(straight_deltas) - front_adjust_down_margin, front_adjust_min)
         if left_deltas:
-            history_left_threshold     = max(max(left_deltas) - ADJUST_DOWN_MARGIN, LEFT_ADJUST_MIN)
+            history_left_threshold     = max(max(left_deltas)     - LEFT_ADJUST_DOWN_MARGIN,  LEFT_ADJUST_MIN)
         if right_deltas:
-            history_right_threshold    = max(max(right_deltas) - ADJUST_DOWN_MARGIN, RIGHT_ADJUST_MIN)
+            history_right_threshold    = max(max(right_deltas)    - RIGHT_ADJUST_DOWN_MARGIN, RIGHT_ADJUST_MIN)
 
     
     print_debug(f"[debug] vehicle {other_vehicle['id']}'s in white list: {in_whitelist}. whitelist: {whitelist}. acc_dist = {acc_dist}. history_straight_threshold, history_left_threshold, history_right_threshold = {history_straight_threshold, history_left_threshold, history_right_threshold}")
@@ -2509,6 +2511,8 @@ def determine_basic_vector_crossing(command_int, other_vehicle, whitelist={}, fo
     raw_ratio = INTERSECTION_CROSS_RATIO if command_int != 2 else RIGHT_TURN_CROSS_RATIO
     straight_cross_ratio = raw_ratio if command_int not in [1, 2] else raw_ratio / TURNING_STRAIGHT_TIGHTEN_RATIO
     straight_dist_thres = INTERSECTION_DISTANCE_THRESHOLD if command_int not in [1, 2] else INTERSECTION_DISTANCE_THRESHOLD / TURNING_STRAIGHT_TIGHTEN_RATIO
+    cross_interval = INTERSECTION_CROSS_INTERVAL if command_int in [1, 3] else RIGHT_TURN_INTERSECTION_CROSS_INTERVAL
+    
     # when right and straight, check front
     if command_int in [2, 3]:
         print_debug(f"[debug] other_vehicle['intersection_point'] = {other_vehicle['intersection_point']}, other_vehicle['actor_arrive_intersection_time'] = {other_vehicle['actor_arrive_intersection_time']}, other_vehicle['ego_to_intersection'] = {other_vehicle['ego_to_intersection']}, straight_dist_thres = {straight_dist_thres}")
@@ -2516,7 +2520,7 @@ def determine_basic_vector_crossing(command_int, other_vehicle, whitelist={}, fo
         other_vehicle['actor_arrive_intersection_time'] > 0.0 and \
         0.0 <= other_vehicle['ego_to_intersection'] <= straight_dist_thres:
             straight_delta_time = other_vehicle['actor_arrive_intersection_time'] - other_vehicle['ego_to_intersection'] / INTERSECTION_EGO_DEFAULT_SPEED
-            intersection_cross_interval = min(straight_cross_ratio * (other_vehicle['ego_to_intersection'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, INTERSECTION_CROSS_INTERVAL)
+            intersection_cross_interval = min(straight_cross_ratio * (other_vehicle['ego_to_intersection'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, cross_interval)
             print_debug(f"[debug] straight id = {other_vehicle['id']}, delta_time = {straight_delta_time}, intersection_cross_interval = {intersection_cross_interval}") #
             if straight_delta_time < INTERSECTION_CONSIDER_INTERVAL:
                 print_debug(f"[debug] id = {other_vehicle['id']} crosses path at front!") #
@@ -2535,7 +2539,7 @@ def determine_basic_vector_crossing(command_int, other_vehicle, whitelist={}, fo
            other_vehicle['actor_arrive_intersection_time_left'] > 0.0 and \
            0.0 <= other_vehicle['ego_to_intersection_left'] <= INTERSECTION_DISTANCE_THRESHOLD:
             left_delta_time = other_vehicle['actor_arrive_intersection_time_left'] - other_vehicle['ego_to_intersection_left'] / INTERSECTION_EGO_DEFAULT_SPEED
-            intersection_cross_interval = min(raw_ratio * (other_vehicle['ego_to_intersection_left'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, INTERSECTION_CROSS_INTERVAL)
+            intersection_cross_interval = min(raw_ratio * (other_vehicle['ego_to_intersection_left'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, cross_interval)
             # print(f"[debug] left id = {other_vehicle['id']}, delta_time = {left_delta_time}, intersection_cross_interval = {intersection_cross_interval}")
             # print(f"[debug] id = {other_vehicle['id']} delta_time = {delta_time}") #
             if left_delta_time < INTERSECTION_CONSIDER_INTERVAL:
@@ -2555,7 +2559,7 @@ def determine_basic_vector_crossing(command_int, other_vehicle, whitelist={}, fo
            other_vehicle['actor_arrive_intersection_time_right'] > 0.0 and \
            0.0 <= other_vehicle['ego_to_intersection_right'] <= INTERSECTION_DISTANCE_THRESHOLD:
             right_delta_time = other_vehicle['actor_arrive_intersection_time_right'] - other_vehicle['ego_to_intersection_right'] / INTERSECTION_EGO_DEFAULT_SPEED
-            intersection_cross_interval = min(raw_ratio * (other_vehicle['ego_to_intersection_right'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, INTERSECTION_CROSS_INTERVAL)
+            intersection_cross_interval = min(raw_ratio * (other_vehicle['ego_to_intersection_right'] / INTERSECTION_EGO_DEFAULT_SPEED) ** 2, cross_interval)
             # print(f"[debug] right id = {other_vehicle['id']}, delta_time = {right_delta_time}, intersection_cross_interval = {intersection_cross_interval}")
             # print(f"[debug] id = {other_vehicle['id']} delta_time = {delta_time}") #
             if right_delta_time < INTERSECTION_CONSIDER_INTERVAL:

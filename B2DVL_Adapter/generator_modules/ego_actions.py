@@ -252,7 +252,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
                         if actor_stop_flag:
                             print_debug(f"[debug] vector stop actor: id={actor['id']}, type_id={actor['type_id']}, base_type={actor.get('base_type', 'NONE!')}")
                             vector_must_stop_actors.append(actor)
-                            if actor['approaching_dot_product'] < 0 and actor['id'] not in self.accelerate_white_list:
+                            if actor['approaching_dot_product'] < 0 and actor['id'] not in self.accelerate_white_list and command_int not in [2]: # not turning right
                                 self.accelerate_black_list[actor['id']] = actor['distance']
                             if command_int in [1, 2, 3]:
                                 if actor['id'] not in self.first_appear_intervals:
@@ -264,7 +264,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
             print_debug(f"[debug] original vector_acc: {[x['id'] for x in vector_acc_actors]}, vector_stop: {[x['id'] for x in vector_must_stop_actors]}")
                 
             if command_int in [1, 2]:
-                if len(vector_must_stop_actors) <= 0 and len(vector_acc_actors) > 0:
+                if len(vector_must_stop_actors) <= 0 and len(vector_acc_actors) > 0 and ego_data['is_in_junction']:
                     for acc_actor in vector_acc_actors:
                         self.accelerate_white_list[acc_actor['id']] = get_vehicle_approach_approx(acc_actor)
                         
@@ -866,6 +866,11 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
                             final_brake_flag = True
                             final_stop_flag = False
                             answer = f"The ego vehicle should control its speed because the {color}" \
+                                                                    f"{vehicletype} that is {rough_pos_str}({object_tags}) is too close."
+                        if vehicle_is_too_dangerous(actor_hazard):
+                            final_brake_flag = True
+                            final_stop_flag = True
+                            answer = f"The ego vehicle should stop because the {color}" \
                                                                     f"{vehicletype} that is {rough_pos_str}({object_tags}) is too close."
                     
                     # Handle the case where the scenario is on a highway

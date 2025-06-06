@@ -361,6 +361,7 @@ MAX_SPEED_IN_JUNCTION = 64.0 / 3.6
 # unit: m/s
 
 INTERSECTION_CROSS_INTERVAL = 2.1
+RIGHT_TURN_INTERSECTION_CROSS_INTERVAL = 1.5
 # vehicle is predicted 'cross' if the ego vehicle and the vehicle arrives at the same point between this time interval
 # AND under RATIO * (time the ego vehicle gets to the intersection) ^ 2 (below)
 # unit: second
@@ -375,10 +376,12 @@ TURNING_STRAIGHT_TIGHTEN_RATIO = 1.5
 # when turning left or turning right, straight ahead CROSS_INTERVAL = RATIO * time the ego vehicle gets to the intersection / TIGHTEN_RATIO
 
 ADJUST_INTERVAL_COUNT = 4
-ADJUST_DOWN_MARGIN = 0.1
+FRONT_ADJUST_DOWN_MARGIN = 0.2
+LEFT_ADJUST_DOWN_MARGIN = 0.1
+RIGHT_ADJUST_DOWN_MARGIN = 0.25
 FRONT_ADJUST_MIN = 0.8
 LEFT_ADJUST_MIN = 1.9
-RIGHT_ADJUST_MIN = 0.8
+RIGHT_ADJUST_MIN = 0.5
 # if recorded first appearance above this number, the ego vehicle will lower the threshold according to history
 # to prevent waiting forever
 # but the minimum value is ADJUST_MIN
