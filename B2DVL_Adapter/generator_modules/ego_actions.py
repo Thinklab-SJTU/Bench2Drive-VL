@@ -266,7 +266,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
             if command_int in [1, 2]:
                 if len(vector_must_stop_actors) <= 0 and len(vector_acc_actors) > 0:
                     for acc_actor in vector_acc_actors:
-                        self.accelerate_white_list[acc_actor['id']] = acc_actor['distance']
+                        self.accelerate_white_list[acc_actor['id']] = get_vehicle_approach_approx(acc_actor)
                         
                 
                 acc_dist = INF_MAX
@@ -281,13 +281,13 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
                         if actor['id'] in self.accelerate_white_list and \
                         actor['id'] not in original_acc_ids:
                             vector_acc_actors.append(actor)
-                        if actor['distance'] > acc_dist and \
+                        if get_vehicle_approach_approx(actor) > acc_dist and \
                         actor['id'] not in original_acc_ids:
                             vector_acc_actors.append(actor)
-                            self.accelerate_white_list[actor['id']] = actor['distance']
+                            self.accelerate_white_list[actor['id']] = get_vehicle_approach_approx(actor)
                 
                 vector_must_stop_actors = [x for x in vector_must_stop_actors if (not(x['id'] in self.accelerate_white_list)) and \
-                                                                                    (actor['distance'] <= acc_dist)]
+                                                                                    (get_vehicle_approach_approx(x) <= acc_dist)]
             
                 print_debug(f"[debug] adjusted vector_acc: {[x['id'] for x in vector_acc_actors]}, vector_stop: {[x['id'] for x in vector_must_stop_actors]}")
 
@@ -2350,8 +2350,16 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
 
     print_debug(f"[debug] OPPOSITE_FRONT_OFFSET = {OPPOSITE_FRONT_OFFSET}, OPPOSITE_DANGER_DISTANCE = {OPPOSITE_DANGER_DISTANCE}")
 
+    lateral_distance = get_lateral_distance_to_lane_center(self.map, ego_data['location'])
+    lateral_distance_to_left = lateral_distance + CARLA_LANE_WIDTH
+    lateral_distance_to_right = CARLA_LANE_WIDTH - lateral_distance
+
+    left_lateral_ratio = ((lateral_distance_to_left) * (LANE_CHANGE_DECLINE_RATIO - 1) + CARLA_LANE_WIDTH) / (CARLA_LANE_WIDTH * LANE_CHANGE_DECLINE_RATIO)
+    right_lateral_ratio = ((lateral_distance_to_right) * (LANE_CHANGE_DECLINE_RATIO - 1) + CARLA_LANE_WIDTH) / (CARLA_LANE_WIDTH * LANE_CHANGE_DECLINE_RATIO)
+
     if self.opposite_flag == False:
         if final_change_dir in [2, 3]: # left
+            print_debug(f"[debug] left danger distance is {BACK_DANGER_DISTANCE * left_lateral_ratio}")
             # consider left lane
             if ego_data['lane_change'] in [0, 1]:
                 # change to opposite
@@ -2383,7 +2391,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
             if tmp_list:
                 for x in tmp_list:
                     if ((x['position'][0] > 0.0 and x['distance'] < front_danger_distance) or \
-                        (x['position'][0] <= 0.0 and x['distance'] < BACK_DANGER_DISTANCE)) and \
+                        (x['position'][0] <= 0.0 and x['distance'] < BACK_DANGER_DISTANCE * left_lateral_ratio)) and \
                         (not (x['position'][0] <= -LANE_CHANGE_STATIC_IGNORE_DISTANCE and x['speed'] < STOP_VEHICLE_SPEED)):
                         target_lane_occupied = True
                         if x['position'][0] <= lane_change_back_clear_threshold:
@@ -2394,6 +2402,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
         
         if final_change_dir in [1, 3]: # right
             # consider right lane
+            print_debug(f"[debug] right danger distance is {BACK_DANGER_DISTANCE * left_lateral_ratio}")
             offset = NORMAL_OFFSET if look_back else OPPOSITE_FRONT_OFFSET
             front_danger_distance = FRONT_DANGER_DISTANCE if look_back else OPPOSITE_DANGER_DISTANCE
             tmp_list = get_vehicle_in_lane_within_threshold(vehicles_by_id.values(), 1,
@@ -2422,7 +2431,7 @@ def generate_ego_vehicle_actions(self, ego_vehicle_data, pedestrians, ego_data, 
                     # if both directions, consider left
                     if final_change_dir not in [3] and scenario_name not in self.circumvent_scenarios and \
                         ((x['position'][0] > 0.0 and x['distance'] < front_danger_distance) or \
-                            (x['position'][0] <= 0.0 and x['distance'] < BACK_DANGER_DISTANCE)) and \
+                            (x['position'][0] <= 0.0 and x['distance'] < BACK_DANGER_DISTANCE * right_lateral_ratio)) and \
                         (not (x['position'][0] <= -LANE_CHANGE_STATIC_IGNORE_DISTANCE and x['speed'] < STOP_VEHICLE_SPEED)):
                         target_lane_occupied = True
                         if x['position'][0] <= lane_change_back_clear_threshold:

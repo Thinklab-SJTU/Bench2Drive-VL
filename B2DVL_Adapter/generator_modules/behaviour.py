@@ -223,17 +223,19 @@ def answer_behaviour_questions(self, ego_vehicle, other_vehicles, scene_data, cu
         # if final_dir_cmd == dir_cmd.left_change and 'InvadingTurn' in scenario:
         #     final_dir_cmd = dir_cmd.follow # just deviate
     
+    control_waiting_speed_flag = False
     if ego_vehicle['is_in_junction'] and \
        final_dir_cmd in [dir_cmd.left_turn, dir_cmd.right_turn] and \
        'move slowly and wait for a chance' in abstract_answer:
         final_dir_cmd = dir_cmd.straight
+        control_waiting_speed_flag = True
         # avoid being hit when crossing an actor flow by the ego vehicle's side
 
     if final_brake_flag:
         final_spd_cmd = spd_cmd.decelerate
         if ego_vehicle['speed'] < BRAKE_MAX_SPEED:
             final_spd_cmd = spd_cmd.keep
-        if ego_vehicle['speed'] < BRAKE_MIN_SPEED:
+        if ego_vehicle['speed'] < 0.1 or (ego_vehicle['speed'] < BRAKE_MIN_SPEED and not control_waiting_speed_flag):
             final_spd_cmd = spd_cmd.accelerate
     if final_stop_flag:
         final_spd_cmd = spd_cmd.stop
