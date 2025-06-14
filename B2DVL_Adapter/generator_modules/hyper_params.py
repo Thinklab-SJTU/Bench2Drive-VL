@@ -381,7 +381,7 @@ LEFT_ADJUST_DOWN_MARGIN = 0.1
 RIGHT_ADJUST_DOWN_MARGIN = 0.25
 FRONT_ADJUST_MIN = 0.8
 LEFT_ADJUST_MIN = 1.9
-RIGHT_ADJUST_MIN = 0.5
+RIGHT_ADJUST_MIN = 0.65
 # if recorded first appearance above this number, the ego vehicle will lower the threshold according to history
 # to prevent waiting forever
 # but the minimum value is ADJUST_MIN

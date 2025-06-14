@@ -753,10 +753,19 @@ class AutoPilot(autonomous_agent_local.AutonomousAgent):
         print_debug(f"[debug] before adjustment, control: target_speed = {target_speed}, steer = {control.steer}, throttle = {control.throttle}, brake = {control.brake}")
         print_debug(f"[debug] self.junction = {self.junction}, self.last_dir_cmd = {self.last_dir_cmd}, control.brake = {control.brake}")
 
+        # if self.junction and \
+        #    (self.last_dir_cmd == self.all_dir_cmds.left_turn or \
+        #     self.last_dir_cmd == self.all_dir_cmds.right_turn) and \
+        #    control.brake > 0.99:
+        #     print_debug(f"[debug] modified steer for merging")
+        #     if control.steer < 0:
+        #         control.steer = max(control.steer / 3.0, -0.02)
+        #     if control.steer > 0:
+        #         control.steer = min(control.steer / 3.0, 0.02)
+        #     # try to avoid avoid uneffective brake
         if self.junction and \
-           (self.last_dir_cmd == self.all_dir_cmds.left_turn or \
-            self.last_dir_cmd == self.all_dir_cmds.right_turn) and \
-           control.brake > 0.99:
+           (self.last_dir_cmd == self.all_dir_cmds.left_turn) and \
+           control.brake > 0.99: # right turn needs curve
             print_debug(f"[debug] modified steer for merging")
             if control.steer < 0:
                 control.steer = max(control.steer / 3.0, -0.02)

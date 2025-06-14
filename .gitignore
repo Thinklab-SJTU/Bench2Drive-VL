@@ -192,7 +192,8 @@ data/*
 **/output/*
 **/archive/*
 /*.json
-/*.txt
+/*log.txt
+/*subset.txt
 /*.log
 *subset.sh
 *env.sh
