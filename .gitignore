@@ -185,7 +185,7 @@ tests/*
 *tokens.py
 *.tar.gz
 **/infer_results/*
-**/data/*
+data/*
 **/eval_v1/*
 **/outgraph/*
 **/outputs/*
