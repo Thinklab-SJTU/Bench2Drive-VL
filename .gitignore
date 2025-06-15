@@ -215,3 +215,6 @@ startup/*
 *process.sh
 **/start_ups/*
 **/metrics/*
+/DriveLangVis/*.json
+/DriveLangVis/*.yaml
+/DriveLangVis/*log*
