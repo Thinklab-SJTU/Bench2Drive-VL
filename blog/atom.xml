@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://Thinklab-SJTU.github.io/Bench2Drive-VL/blog</id>
+    <title>Bench2Drive-VL Blog</title>
+    <updated>2025-05-22T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://Thinklab-SJTU.github.io/Bench2Drive-VL/blog"/>
+    <subtitle>Bench2Drive-VL Blog</subtitle>
+    <icon>https://Thinklab-SJTU.github.io/Bench2Drive-VL/img/VL-logo.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Hello World!]]></title>
+        <id>https://Thinklab-SJTU.github.io/Bench2Drive-VL/blog/welcome</id>
+        <link href="https://Thinklab-SJTU.github.io/Bench2Drive-VL/blog/welcome"/>
+        <updated>2025-05-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Our first version of Bench2Drive-VL is finally comming out!]]></summary>
+        <content type="html"><![CDATA[<p>Our first version of Bench2Drive-VL is finally comming out!</p>
+<p>This is still an early access version, so feel free to write feature request, any issue is welcomed!</p>
+<p>Have a nice day (  = w = )</p>]]></content>
+        <author>
+            <name>Yuqian Shao</name>
+            <uri>https://github.com/MeteorCollector</uri>
+        </author>
+    </entry>
+</feed>
